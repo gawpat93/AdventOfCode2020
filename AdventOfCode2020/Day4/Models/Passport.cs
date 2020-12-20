@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Day4.Models
 {
@@ -10,13 +9,13 @@ namespace Day4.Models
         {
             Fields = new Dictionary<string, string>();
             var fields = data.Split(' ');
-            fields.Where(x=>!string.IsNullOrWhiteSpace(x)).ToList().ForEach(x =>
-            {
-                var elements = x.Split(':');
-                Fields.Add(elements[0],elements[1]);
-            });
+            fields.Where(x => !string.IsNullOrWhiteSpace(x)).ToList().ForEach(x =>
+              {
+                  var elements = x.Split(':');
+                  Fields.Add(elements[0], elements[1]);
+              });
         }
-        
-        public Dictionary<string, string> Fields { get;}
+
+        public Dictionary<string, string> Fields { get; }
     }
 }

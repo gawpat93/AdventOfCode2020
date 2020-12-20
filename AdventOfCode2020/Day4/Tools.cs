@@ -8,7 +8,7 @@ namespace Day4
 {
     public static class Tools
     {
-        public static int ValidPassports(string inputFileName)
+        public static int ValidPassports(string inputFileName, bool customRules = false)
         {
             int validPassports = 0;
             var lines = File.ReadAllLines(inputFileName);
@@ -25,14 +25,14 @@ namespace Day4
                 //"cid", // (Country ID) optional
             };
             var policy = new PassportPolicy(requiredFields);
-            passports.ForEach(x=>
+            passports.ForEach(x =>
             {
-                if (policy.Validate(x))
+                if (customRules ? policy.ValidateCustomRules(x) : policy.Validate(x))
                 {
                     validPassports++;
                 }
             });
-            
+
             return validPassports;
         }
 
