@@ -41,7 +41,7 @@ namespace Day7
             var lines = File.ReadAllLines(inputFileName);
             var bags = LoadBagsList(lines);
 
-            int numberOfBags = GetNumberOfBags(MY_BAG_COLOR, ref bags);
+            int numberOfBags = GetNumberOfBagsInside(MY_BAG_COLOR, ref bags);
 
             return numberOfBags;
         }
@@ -60,23 +60,24 @@ namespace Day7
             return colors;
         }
 
-        private static int GetNumberOfBags(string bagColor, ref List<Bag> bags)
+        private static int GetNumberOfBagsInside(string bagColor, ref List<Bag> bags)
         {
             var bag = bags.First(x => x.Color == bagColor);
             if (bag?.CanContain == null) return 0;
 
-            int sum = 0;
+            var sum = 0;
             foreach (var (number, tmpBag) in bag.CanContain)
             {
                 sum += number;
                 if (tmpBag != null)
                 {
-                    sum += number * GetNumberOfBags(tmpBag.Color, ref bags);
+                    sum += number * GetNumberOfBagsInside(tmpBag.Color, ref bags);
                 }
             }
 
             return sum;
         }
+
         private static List<Bag> LoadBagsList(IEnumerable<string> lines)
         {
             var bags = new List<Bag>();
