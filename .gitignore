@@ -1,13 +1,3 @@
-AdventOfCode2020/Day1/bin/
-AdventOfCode2020/Day1/obj/
 AdventOfCode2020/.vs/
-AdventOfCode2020/Day2/bin/
-AdventOfCode2020/Day2/obj/
-AdventOfCode2020/Day3/obj/
-AdventOfCode2020/Day3/bin/
-AdventOfCode2020/Day4/bin/
-AdventOfCode2020/Day4/obj/
-AdventOfCode2020/Day5/bin/
-AdventOfCode2020/Day5/obj/
-AdventOfCode2020/Day6/obj/
-AdventOfCode2020/Day6/bin/
+bin/
+obj/
