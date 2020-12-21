@@ -8,40 +8,15 @@ namespace Day7
 {
     public static class Tools
     {
-        private const string MY_BAG_COLOR = "shiny gold";
-        private const string CONTAIN = "contain";
         private const string BAG_DEFINITION_ENDING = " bags ";
+        private const string CONTAIN = "contain";
+        private const string MY_BAG_COLOR = "shiny gold";
         private const string NO_OTHER_BAGS = "no other bags";
 
         public static int GetNumberOfBagsAbleToContainMyBag(string inputFileName)
         {
             var lines = File.ReadAllLines(inputFileName);
-            var bags = new List<Bag>();
-            foreach (var line in lines)
-            {
-                var definition = line.Split(CONTAIN);
-                var color = definition[0].Replace(BAG_DEFINITION_ENDING, string.Empty);
-                var containList = definition[1].Replace(".", "").Split(',');
-                var canContainList = new List<Tuple<int, Bag>>();
-                foreach (var element in containList)
-                {
-                    if (string.IsNullOrWhiteSpace(element))
-                    {
-                        throw new Exception("Error 0 in Tools.GetNumberOfBagsAbleToContainMyBag");
-                    }
-
-                    if (element.Trim() == NO_OTHER_BAGS)
-                    {
-                        continue;
-                    }
-
-                    var tmp = element.Trim().Split(" ");
-                    canContainList.Add(new Tuple<int, Bag>(int.Parse(tmp[0]), new Bag($"{tmp[1]} {tmp[2]}", null)));
-                }
-
-                bags.Add(new Bag(color, canContainList));
-            }
-
+            var bags = LoadBagsList(lines);
             var canContainMyBag = GetBagsThatCanContain(MY_BAG_COLOR, ref bags).ToList();
 
             var current = canContainMyBag;
@@ -73,6 +48,37 @@ namespace Day7
             }
 
             return colors;
+        }
+
+        private static List<Bag> LoadBagsList(IEnumerable<string> lines)
+        {
+            var bags = new List<Bag>();
+            foreach (var line in lines)
+            {
+                var definition = line.Split(CONTAIN);
+                var color = definition[0].Replace(BAG_DEFINITION_ENDING, string.Empty);
+                var containList = definition[1].Replace(".", "").Split(',');
+                var canContainList = new List<Tuple<int, Bag>>();
+                foreach (var element in containList)
+                {
+                    if (string.IsNullOrWhiteSpace(element))
+                    {
+                        throw new Exception("Error 0 in Tools.GetNumberOfBagsAbleToContainMyBag");
+                    }
+
+                    if (element.Trim() == NO_OTHER_BAGS)
+                    {
+                        continue;
+                    }
+
+                    var tmp = element.Trim().Split(" ");
+                    canContainList.Add(new Tuple<int, Bag>(int.Parse(tmp[0]), new Bag($"{tmp[1]} {tmp[2]}", null)));
+                }
+
+                bags.Add(new Bag(color, canContainList));
+            }
+
+            return bags;
         }
     }
 }
