@@ -9,6 +9,8 @@ namespace Day5
         {
             var result = Tools.GetHighestSeatIdFromFile(@"Data\input.dat");
             Assert.AreEqual(965,result);
+            var result2 = Tools.FindMySeatId(@"Data\input.dat");
+            Assert.AreEqual(524, result2);
         }
 
         [Test]

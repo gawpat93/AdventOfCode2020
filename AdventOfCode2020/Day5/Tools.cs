@@ -12,6 +12,37 @@ namespace Day5
         private const char RIGHT = 'R';
         private const int TOTAL_ROWS = 128;
         private const int TOTAL_SEATS = 8;
+
+        public static int FindMySeatId(string inputFileName)
+        {
+            var keys = File.ReadAllLines(inputFileName);
+            var takenSeats = new int[keys.Length];
+            int max = GetSeatId(keys[0]);
+            int min = max;
+            for (var i = 0; i < keys.Length; i++)
+            {
+                int value = GetSeatId(keys[i]);
+                takenSeats[i] = value;
+                if (value > max)
+                {
+                    max = value;
+                }
+                else if (value< min)
+                {
+                    min = value;
+                }
+            }
+            
+            var result = Enumerable.Range(min, max - min).Except(takenSeats).ToArray();
+            
+            if (result.Length == 1)
+            {
+                return result.First();
+            }
+            
+            throw new Exception("Error in Tools.FindMySeatId");
+        }
+
         public static int GetHighestSeatIdFromFile(string inputFileName)
         {
             var keys = File.ReadAllLines(inputFileName);
@@ -24,7 +55,7 @@ namespace Day5
                     max = id;
                 }
             }
-            
+
             return max;
         }
 
