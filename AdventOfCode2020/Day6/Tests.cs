@@ -9,6 +9,9 @@ namespace Day6
         {
             var result = Tools.QuestionsAnsweredYes(@"Data\input.dat");
             Assert.AreEqual(6443, result);
+
+            var result1 = Tools.QuestionsAnsweredYesByAllPersonsInSameGroup(@"Data\input.dat");
+            Assert.AreEqual(3232, result1);
         }
 
         [Test]
@@ -16,6 +19,8 @@ namespace Day6
         {
             var result = Tools.QuestionsAnsweredYes(@"Data\simple.dat");
             Assert.AreEqual(11, result);
+            var result1 = Tools.QuestionsAnsweredYesByAllPersonsInSameGroup(@"Data\simple.dat");
+            Assert.AreEqual(6, result1);
         }
     }
 }
