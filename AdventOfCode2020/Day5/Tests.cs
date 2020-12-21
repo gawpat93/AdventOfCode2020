@@ -7,6 +7,8 @@ namespace Day5
         [Test]
         public void FinalTest()
         {
+            var result = Tools.GetHighestSeatIdFromFile(@"Data\input.dat");
+            Assert.AreEqual(965,result);
         }
 
         [Test]

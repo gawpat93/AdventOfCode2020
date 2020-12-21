@@ -1,16 +1,32 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace Day5
 {
     public static class Tools
     {
-        private const int TOTAL_ROWS = 128;
-        private const int TOTAL_SEATS = 8;
         private const char BACK = 'B';
         private const char FRONT = 'F';
-        private const char RIGHT = 'R';
         private const char LEFT = 'L';
+        private const char RIGHT = 'R';
+        private const int TOTAL_ROWS = 128;
+        private const int TOTAL_SEATS = 8;
+        public static int GetHighestSeatIdFromFile(string inputFileName)
+        {
+            var keys = File.ReadAllLines(inputFileName);
+            int max = 0;
+            foreach (var key in keys)
+            {
+                int id = GetSeatId(key);
+                if (id > max)
+                {
+                    max = id;
+                }
+            }
+            
+            return max;
+        }
 
         public static int GetSeatId(string key)
         {
