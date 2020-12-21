@@ -7,6 +7,8 @@ namespace Day7
         [Test]
         public void FinalTest()
         {
+            var result = Tools.GetNumberOfBagsAbleToContainMyBag(@"Data\input.dat");
+            Assert.AreEqual(316, result);
         }
 
         [Test]
