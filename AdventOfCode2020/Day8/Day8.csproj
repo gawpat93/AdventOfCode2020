@@ -14,9 +14,6 @@
     <None Update="Data\input.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Data\simple1.dat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Data\simple.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
