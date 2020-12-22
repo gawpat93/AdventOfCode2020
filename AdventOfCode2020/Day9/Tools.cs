@@ -44,5 +44,34 @@ namespace Day9
 
             throw new Exception("Error in Tools.GetNotSumNumberAfterPreamble");
         }
+
+        public static long GetSumMinMAxOfContiguousSetOfAtLeastTwoNumbersThatSumToWeaknessNumber(string inputFileName, int preambleSize)
+        {
+            var sum = GetNotSumNumberAfterPreamble(inputFileName, preambleSize);
+
+            var lines = File.ReadAllLines(inputFileName);
+            var values = lines.Select(Parse).ToArray();
+            for (var i = 0; i < values.Length - 1; i++)
+            {
+                var tmpSum = values[i];
+                for (var j = i + 1; j < values.Length - 1; j++)
+                {
+                    tmpSum += values[j];
+
+                    if (tmpSum == sum)
+                    {
+                        var searchList = values[i..j].ToList();
+                        return searchList.Max() + searchList.Min();
+                    }
+
+                    if (tmpSum > sum)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            throw new Exception("Error in Tools.GetSumMinMAxOfContiguousSetOfAtLeastTwoNumbersThatSumToWeaknessNumber");
+        }
     }
 }
