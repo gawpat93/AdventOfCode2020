@@ -54,7 +54,7 @@ namespace Day9
             for (var i = 0; i < values.Length - 1; i++)
             {
                 var tmpSum = values[i];
-                for (var j = i + 1; j < values.Length - 1; j++)
+                for (var j = i + 1; j < values.Length; j++)
                 {
                     tmpSum += values[j];
 
