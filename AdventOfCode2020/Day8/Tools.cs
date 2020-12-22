@@ -12,42 +12,6 @@ namespace Day8
         const string JUMP_COMMAND = "jmp";
         const string NO_OPERATION_COMMAND = "nop";
 
-        public static int GetAccumulatorValueBeforeInfinitiveLoop(string inputFileName)
-        {
-            var lines = File.ReadAllLines(inputFileName);
-            var commands = lines.Select(line =>
-            {
-                var items = line.Split(" ");
-                return new Command(items[0], int.Parse(items[1]));
-            }).ToArray();
-
-            var accumulatorValue = 0;
-            var i = 0;
-            var visitedIndexes = new List<int>();
-            while (!visitedIndexes.Contains(i))
-            {
-                visitedIndexes.Add(i);
-                var current = commands[i];
-                switch (current.Name)
-                {
-                    case NO_OPERATION_COMMAND:
-                        i++;
-                        break;
-                    case INCREASE_ACCUMULATOR_COMMAND:
-                        accumulatorValue += current.Value;
-                        i++;
-                        break;
-                    case JUMP_COMMAND:
-                        i += current.Value;
-                        break;
-                    default:
-                        throw new Exception("Wrong command name!");
-                }
-            }
-
-            return accumulatorValue;
-        }
-
         public static int GetAccumulatorValue(string inputFileName)
         {
             var lines = File.ReadAllLines(inputFileName);
@@ -66,7 +30,7 @@ namespace Day8
                 {
                     continue;
                 }
-                
+
                 var newCmd = new Command(cmd.Name == NO_OPERATION_COMMAND ? JUMP_COMMAND : NO_OPERATION_COMMAND, cmd.Value);
 
                 var correctedCommands = commands;
@@ -78,22 +42,7 @@ namespace Day8
                 while (!visitedIndexes.Contains(i) && i < correctedCommands.Length)
                 {
                     visitedIndexes.Add(i);
-                    var current = correctedCommands[i];
-                    switch (current.Name)
-                    {
-                        case NO_OPERATION_COMMAND:
-                            i++;
-                            break;
-                        case INCREASE_ACCUMULATOR_COMMAND:
-                            accumulatorValue += current.Value;
-                            i++;
-                            break;
-                        case JUMP_COMMAND:
-                            i += current.Value;
-                            break;
-                        default:
-                            throw new Exception("Wrong command name!");
-                    }
+                    ExecuteCommand(ref i, ref correctedCommands, ref accumulatorValue);
                 }
 
                 if (i >= correctedCommands.Length)
@@ -105,28 +54,56 @@ namespace Day8
             throw new Exception("Error in Tools.GetAccumulatorValue");
         }
 
-        private static List<int> GetIndexesBeforeInfinitiveLoop(Command[] commands)
+        public static int GetAccumulatorValueBeforeInfinitiveLoop(string inputFileName)
         {
+            var lines = File.ReadAllLines(inputFileName);
+            var commands = lines.Select(line =>
+            {
+                var items = line.Split(" ");
+                return new Command(items[0], int.Parse(items[1]));
+            }).ToArray();
+
+            var accumulatorValue = 0;
             var i = 0;
             var visitedIndexes = new List<int>();
             while (!visitedIndexes.Contains(i))
             {
                 visitedIndexes.Add(i);
-                var current = commands[i];
-                switch (current.Name)
-                {
-                    case NO_OPERATION_COMMAND:
-                        i++;
-                        break;
-                    case INCREASE_ACCUMULATOR_COMMAND:
-                        i++;
-                        break;
-                    case JUMP_COMMAND:
-                        i += current.Value;
-                        break;
-                    default:
-                        throw new Exception("Wrong command name!");
-                }
+                ExecuteCommand(ref i, ref commands, ref accumulatorValue);
+            }
+
+            return accumulatorValue;
+        }
+        
+        private static void ExecuteCommand(ref int i, ref Command[] commands, ref int accumulatorValue)
+        {
+            var current = commands[i];
+            switch (current.Name)
+            {
+                case NO_OPERATION_COMMAND:
+                    i++;
+                    break;
+                case INCREASE_ACCUMULATOR_COMMAND:
+                    accumulatorValue += current.Value;
+                    i++;
+                    break;
+                case JUMP_COMMAND:
+                    i += current.Value;
+                    break;
+                default:
+                    throw new Exception("Wrong command name!");
+            }
+        }
+
+        private static List<int> GetIndexesBeforeInfinitiveLoop(Command[] commands)
+        {
+            var i = 0;
+            var accumulatorValue = 0;
+            var visitedIndexes = new List<int>();
+            while (!visitedIndexes.Contains(i))
+            {
+                visitedIndexes.Add(i);
+                ExecuteCommand(ref i, ref commands, ref accumulatorValue);
             }
 
             return visitedIndexes;
