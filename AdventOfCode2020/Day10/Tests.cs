@@ -20,6 +20,10 @@ namespace Day10
 
             var result1 = Tools.GetOneJoltMultipliedByThreeJoltDifferences(@"Data\simple1.dat");
             Assert.AreEqual(22 * 10, result1);
+            
+            Assert.AreEqual(8, Tools.GetNumberOfAllPossibleCombinations(@"Data\simple.dat"));
+            
+            Assert.AreEqual(19208, Tools.GetNumberOfAllPossibleCombinations(@"Data\simple1.dat"));
         }
     }
 }
