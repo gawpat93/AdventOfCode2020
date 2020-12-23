@@ -15,7 +15,8 @@ namespace Day10
             var jolts = lines.Select(int.Parse).ToList();
             jolts.Add(jolts.Max() + 3);
             jolts.Add(0);
-            return Combinations(jolts.OrderBy(x => x).ToList());
+            var cache = new Dictionary<string, long>();
+            return Combinations(jolts.OrderBy(x => x).ToList(), cache);
         }
 
         public static int GetOneJoltMultipliedByThreeJoltDifferences(string inputFileName)
@@ -32,8 +33,14 @@ namespace Day10
             return gaps.Count(x => x == 3) * gaps.Count(x => x == 1);
         }
 
-        private static long Combinations(List<int> list)
+        private static long Combinations(List<int> list, Dictionary<string, long> cache)
         {
+            var key = GetListKey(list);
+            if (cache.TryGetValue(key, out long value))
+            {
+                return value;
+            }
+
             long result = 1;
             for (var i = 1; i < list.Count - 1; i++)
             {
@@ -46,11 +53,19 @@ namespace Day10
                         list[i - 1]
                     };
                     subList.AddRange(list.GetRange(i + 1, list.Count - i - 1));
-                    result += Combinations(subList);
+                    result += Combinations(subList, cache);
                 }
             }
 
+            cache.Add(key, result);
             return result;
+        }
+
+        private static string GetListKey(List<int> list)
+        {
+            var key = new StringBuilder();
+            list.ForEach(x => key.Append($"{x};"));
+            return key.ToString();
         }
     }
 }
