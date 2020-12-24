@@ -51,6 +51,68 @@ namespace Day11
             return GetTotalOccupiedNumber(seats);
         }
 
+        public static long GetResultPart2(string inputFileName)
+        {
+            var lines = File.ReadAllLines(inputFileName);
+            var seats = Init(lines);
+
+            bool valueChanged;
+            var step = 0;
+            do
+            {
+                valueChanged = false;
+                var previous = seats.Select(a => a.ToArray()).ToArray();
+                for (var i = 0; i < seats.Length; i++)
+                {
+                    for (var j = 0; j < seats[i].Length; j++)
+                    {
+                        if (!seats[i][j].HasSeat)
+                        {
+                            continue;
+                        }
+
+                        int occupied = GetNumberOfOccupiedSeatsVisible(i, j, previous);
+                        var next = NextStep(previous[i][j], occupied, out var changed, true);
+                        seats[i][j] = next;
+                        if (changed)
+                        {
+                            valueChanged = true;
+                        }
+                    }
+                }
+
+                if (step > 9999)
+                {
+                    throw new Exception("Infinite loop!");
+                }
+
+                step++;
+            } while (valueChanged);
+
+            return GetTotalOccupiedNumber(seats);
+        }
+
+        private static bool FindFirstSeatStatusInDirection(int i, int j, Place[][] seats, int directionX, int directionY)
+        {
+            var x = i + directionX;
+            var y = j + directionY;
+
+            while (x < seats.Length && x >= 0 && y < seats[0].Length && y >= 0)
+            {
+                if (seats[x][y].HasSeat)
+                {
+                    return seats[x][y].IsOccupied;
+                }
+                else
+                {
+                    x += directionX;
+                    y += directionY;
+                }
+            }
+
+            return false;
+        }
+
         private static int GetNumberOfOccupiedAdjustedSeats(int i, int j, Place[][] seats)
         {
             var occupiedValues = new List<bool?>
@@ -68,6 +130,23 @@ namespace Day11
             return occupiedValues.Count(x => x.HasValue && x.Value);
         }
 
+        private static int GetNumberOfOccupiedSeatsVisible(int i, int j, Place[][] seats)
+        {
+            var occupiedValues = new List<bool>
+            {
+                FindFirstSeatStatusInDirection(i,j,seats,-1,-1),
+                FindFirstSeatStatusInDirection(i,j,seats,-1,0),
+                FindFirstSeatStatusInDirection(i,j,seats,-1,1),
+                FindFirstSeatStatusInDirection(i,j,seats,0,-1),
+                FindFirstSeatStatusInDirection(i,j,seats,0,1),
+                FindFirstSeatStatusInDirection(i,j,seats,1,-1),
+                FindFirstSeatStatusInDirection(i,j,seats,1,0),
+                FindFirstSeatStatusInDirection(i,j,seats,1,1)
+            };
+
+            return occupiedValues.Count(x => x);
+        }
+
         private static int GetTotalOccupiedNumber(Place[][] seats)
         {
             var totalOccupiedNumber = 0;
@@ -80,7 +159,7 @@ namespace Day11
             }));
             return totalOccupiedNumber;
         }
-        
+
         private static Place[][] Init(string[] lines)
         {
             var seats = new Place[lines.Length][];
@@ -97,7 +176,7 @@ namespace Day11
             return seats;
         }
 
-        private static Place NextStep(Place current, int occupied, out bool changed)
+        private static Place NextStep(Place current, int occupied, out bool changed, bool newRules = false)
         {
             changed = false;
             if (!current.HasSeat) return new Place(false);
@@ -106,7 +185,7 @@ namespace Day11
 
             switch (current.IsOccupied)
             {
-                case true when occupied >= 4:
+                case true when occupied >= (newRules ? 5 : 4):
                     next.IsOccupied = false;
                     changed = true;
                     break;

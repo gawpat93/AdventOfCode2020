@@ -10,6 +10,9 @@ namespace Day11
         {
             var result = Tools.GetResultPart1(@"Data\input.dat");
             Assert.AreEqual(2275, result);
+
+            var result1 = Tools.GetResultPart2(@"Data\input.dat");
+            Assert.AreEqual(2121, result1);
         }
 
         [Test]
@@ -17,6 +20,9 @@ namespace Day11
         {
             var result = Tools.GetResultPart1(@"Data\simple.dat");
             Assert.AreEqual(37, result);
+
+            var result1 = Tools.GetResultPart2(@"Data\simple.dat");
+            Assert.AreEqual(26, result1);
         }
     }
 }
