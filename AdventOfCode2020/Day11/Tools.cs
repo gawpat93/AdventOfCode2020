@@ -9,6 +9,7 @@ namespace Day11
     public static class Tools
     {
         private const char SEAT = 'L';
+
         public static long GetResultPart1(string inputFileName)
         {
             var lines = File.ReadAllLines(inputFileName);
@@ -47,15 +48,7 @@ namespace Day11
                 step++;
             } while (valueChanged);
 
-            var totalOccupiedNumber = 0;
-            seats.ToList().ForEach(x => x.ToList().ForEach(y =>
-            {
-                if (y.HasSeat && y.IsOccupied)
-                {
-                    totalOccupiedNumber++;
-                }
-            }));
-            return totalOccupiedNumber;
+            return GetTotalOccupiedNumber(seats);
         }
 
         private static int GetNumberOfOccupiedAdjustedSeats(int i, int j, Place[][] seats)
@@ -75,6 +68,19 @@ namespace Day11
             return occupiedValues.Count(x => x.HasValue && x.Value);
         }
 
+        private static int GetTotalOccupiedNumber(Place[][] seats)
+        {
+            var totalOccupiedNumber = 0;
+            seats.ToList().ForEach(x => x.ToList().ForEach(y =>
+            {
+                if (y.HasSeat && y.IsOccupied)
+                {
+                    totalOccupiedNumber++;
+                }
+            }));
+            return totalOccupiedNumber;
+        }
+        
         private static Place[][] Init(string[] lines)
         {
             var seats = new Place[lines.Length][];
