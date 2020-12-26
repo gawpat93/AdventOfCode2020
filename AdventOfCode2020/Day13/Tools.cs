@@ -39,30 +39,29 @@ namespace Day13
         public static long GetResultPart2(string inputFileName)
         {
             var lines = File.ReadAllLines(inputFileName);
-            var buses = lines[1].Split(",");
-            int timeStamp = 0;
-            while (true)
+            var buses = lines[1].Split(",").Select(x => long.TryParse(x, out var tmp) ? tmp : 0).ToArray();
+            long result = 0;
+            var increment = buses[0];
+            var i = 1;
+            while (i < buses.Length)
             {
-                timeStamp += int.Parse(buses[0]);
-                var condition = true;
-                for (var i = 1; i < buses.Length; i++)
+                if (buses[i] == 0)
                 {
-                    if (buses[i] == "x") continue;
-                    var busId = int.Parse(buses[i]);
-                    if ((timeStamp + i) % busId != 0)
-                    {
-                        condition = false;
-                        break;
-                    }
+                    i++;
+                    continue;
                 }
 
-                if (condition)
+                result += increment;
+                if ((result + i) % buses[i] != 0)
                 {
-                    break;
+                    continue;
                 }
+
+                increment *= buses[i];
+                i++;
             }
 
-            return timeStamp;
+            return result;
         }
     }
 }

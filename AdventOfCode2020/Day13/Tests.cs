@@ -11,8 +11,8 @@ namespace Day13
             var result = Tools.GetResultPart1(@"Data\input.dat");
             Assert.AreEqual(3789, result);
 
-            //var result2 = Tools.GetResultPart2(@"Data\input.dat");
-            //Assert.AreEqual(0, result2);
+            var result2 = Tools.GetResultPart2(@"Data\input.dat");
+            Assert.AreEqual(667437230788118, result2);
         }
 
         [Test]
