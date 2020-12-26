@@ -12,15 +12,13 @@ namespace Day12.Models
             WaypointVertical = waypointVertical;
         }
 
-        public int EastWestValue { get; private set; }
-
         public int ManhattanDistance => Math.Abs(EastWestValue) + Math.Abs(NorthSouthValue);
 
-        public int NorthSouthValue { get; private set; }
-
+        private int EastWestValue { get; set; }
+        private int NorthSouthValue { get; set; }
         private int WaypointHorizontal { get; set; }
-
         private int WaypointVertical { get; set; }
+
         public void MoveShip(int times)
         {
             EastWestValue += WaypointHorizontal * times;
