@@ -36,6 +36,7 @@ namespace Day13
             return minTimestampBusId * (minTimestamp - timeStamp);
         }
 
+        //optimization with help https://github.com/LennardF1989/AdventOfCode2020/blob/master/Src/AdventOfCode2020/Days/Day13.cs
         public static long GetResultPart2(string inputFileName)
         {
             var lines = File.ReadAllLines(inputFileName);
