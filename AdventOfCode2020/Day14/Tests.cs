@@ -8,7 +8,7 @@ namespace Day14
         [Test]
         public void FinalTest()
         {
-            //Assert.AreEqual(0, Tools.GetResultPart1(@"Data\input.dat"));
+            Assert.AreEqual(12512013221615, Tools.GetResultPart1(@"Data\input.dat"));
         }
 
         [Test]
