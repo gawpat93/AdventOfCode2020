@@ -1,5 +1,4 @@
 ﻿using Day14.Models;
-using System;
 using System.IO;
 
 namespace Day14
@@ -21,7 +20,7 @@ namespace Day14
                 }
                 else
                 {
-                    var id = int.Parse(elements[0].Replace("]", "").Replace("mem[", ""));
+                    var id = GetIdFromLineString(line);
                     var value = int.Parse(elements[1].Trim());
                     commandGroup?.AddMemoryCommand(id, value);
                 }
@@ -33,7 +32,29 @@ namespace Day14
         public static long GetResultPart2(string inputFileName)
         {
             var lines = File.ReadAllLines(inputFileName);
-            throw new NotImplementedException();
+            var commandGroup = new CommandGroup(string.Empty);
+            foreach (var line in lines)
+            {
+                var elements = line.Split('=');
+                if (elements[0].Trim() == MASK)
+                {
+                    commandGroup.ChangeMask(elements[1].Trim());
+                }
+                else
+                {
+                    var id = GetIdFromLineString(line);
+                    var value = int.Parse(elements[1].Trim());
+                    commandGroup?.AddMemoryCommand2(id, value);
+                }
+            }
+
+            return commandGroup.GetMemoryValuesSum();
+        }
+
+        private static int GetIdFromLineString(string line)
+        {
+            var elements = line.Split('=');
+            return int.Parse(elements[0].Replace("]", "").Replace("mem[", ""));
         }
     }
 }
